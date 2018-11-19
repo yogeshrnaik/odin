@@ -13,17 +13,19 @@ pipeline {
      pollSCM('H * * * *')
     }
 
-    stage("build-and-test") {
-        steps {
-            sh 'mvn clean install'
+    stages {
+        stage("build-and-test") {
+            steps {
+                sh 'mvn clean install'
+            }
         }
-    }
 
-    stage ('build-docker-image-and-push-to-registry') {
-        steps {
-            script {
-                GIT_SHA=sh returnStdout: true, script: 'git rev-parse HEAD'
-                buildDockerImageAndPushToECR(GIT_SHA, REPO_NAME)
+        stage ('build-docker-image-and-push-to-registry') {
+            steps {
+                script {
+                    GIT_SHA=sh returnStdout: true, script: 'git rev-parse HEAD'
+                    buildDockerImageAndPushToECR(GIT_SHA, REPO_NAME)
+                }
             }
         }
     }
