@@ -7,6 +7,8 @@ ECR_REPO_URI = "738035286324.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}"
 pipeline {
     agent any
 
+    properties([pipelineTriggers([githubPush()])])
+
     stage("build-and-test") {
         sh 'mvn clean install'
     }
