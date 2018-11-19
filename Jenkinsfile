@@ -1,16 +1,22 @@
-USER_NAME=prashant
-SERVICE_NAME=odin
-AWS_REGION=us-east-1
-REPO_NAME=${USER_NAME}/${SERVICE_NAME}
-ECR_REPO_URI = "738035286324.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}"
-
 pipeline {
     agent any
 
-    properties([pipelineTriggers([githubPush()])])
+    environment {
+        USER_NAME=prashant
+        SERVICE_NAME=odin
+        AWS_REGION=us-east-1
+        REPO_NAME=${USER_NAME}/${SERVICE_NAME}
+        ECR_REPO_URI = "738035286324.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}"
+    }
+
+    triggers {
+     pollSCM('H * * * *')
+    }
 
     stage("build-and-test") {
-        sh 'mvn clean install'
+        steps {
+            sh 'mvn clean install'
+        }
     }
 
     stage ('build-docker-image-and-push-to-registry') {
