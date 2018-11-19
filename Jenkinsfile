@@ -2,10 +2,10 @@ pipeline {
     agent any
 
     environment {
-        USER_NAME=prashant
-        SERVICE_NAME=odin
-        AWS_REGION=us-east-1
-        REPO_NAME=${USER_NAME}/${SERVICE_NAME}
+        USER_NAME = "prashant"
+        SERVICE_NAME = "odin"
+        AWS_REGION = "us-east-1"
+        REPO_NAME = "${USER_NAME}/${SERVICE_NAME}""
         ECR_REPO_URI = "738035286324.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}"
     }
 
