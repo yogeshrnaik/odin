@@ -9,10 +9,6 @@ pipeline {
         ECR_REPO_URI = "738035286324.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}"
     }
 
-    triggers {
-     pollSCM('H * * * *')
-    }
-
     stages {
         stage("build-and-test") {
             steps {
@@ -23,8 +19,8 @@ pipeline {
         stage ('build-docker-image-and-push-to-registry') {
             steps {
                 script {
-                    GIT_SHA=sh returnStdout: true, script: 'git rev-parse HEAD'
-                    buildDockerImageAndPushToECR(GIT_SHA, REPO_NAME)
+                    GIT_SHA = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+                    buildDockerImageAndPushToECR(GIT_SHA, REPO_NAME, AWS_REGION, ECR_REPO_URI)
                 }
             }
         }
@@ -32,13 +28,9 @@ pipeline {
 }
 
 def buildDockerImageAndPushToECR(imageTag, repoName, region, repoUri) {
-    ensureDockerRepoExists(repoName, region)
-    sh """
-        docker build . -t \${repoName}:\${imageTag};
-        docker tag \${repoName}:\${imageTag} \${repoUri}:\${imageTag};
-        eval "\$(aws ecr get-login --no-include-email --region eu-west-1)";
-        docker push \${repoUri}:\${imageTag}
-    """
+    //ensureDockerRepoExists(repoName, region)
+    sh "docker build . -t ${repoName}:${imageTag}"
+    sh "docker tag ${repoName}:${imageTag} ${repoUri}:${imageTag}"
 }
 
 
