@@ -28,9 +28,11 @@ pipeline {
 }
 
 def buildDockerImageAndPushToECR(imageTag, repoName, region, repoUri) {
-    //ensureDockerRepoExists(repoName, region)
+    ensureDockerRepoExists(repoName, region)
     sh "docker build . -t ${repoName}:${imageTag}"
     sh "docker tag ${repoName}:${imageTag} ${repoUri}:${imageTag}"
+    sh "\$(aws ecr get-login --no-include-email --region ${region})"
+    sh "docker push ${repoUri}:${imageTag}"
 }
 
 
