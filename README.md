@@ -1,3 +1,5 @@
+(TODO - Needs to update these instructions)
+
 #### Build the service image with command
 
 docker build -t ecs-workshop/service1 --build-arg JAR_FILE=target/ecsworkshop.service1-1.0-SNAPSHOT.jar .
