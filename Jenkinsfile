@@ -29,7 +29,7 @@ pipeline {
 
 def buildDockerImageAndPushToECR(imageTag, repoName, region, repoUri) {
     ensureDockerRepoExists(repoName, region)
-    sh "docker build . -t ${repoName}:${imageTag}"
+    sh "docker build . -t ${repoName}:${imageTag} --build-arg JAR_FILE=target/ecsworkshop.service1-1.0-SNAPSHOT.jar"
     sh "docker tag ${repoName}:${imageTag} ${repoUri}:${imageTag}"
     sh "\$(aws ecr get-login --no-include-email --region ${region})"
     sh "docker push ${repoUri}:${imageTag}"
