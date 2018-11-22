@@ -4,4 +4,4 @@ memory: 256
 context: "/odin"
 health_check: "/odin/actuator/health"
 min_instances: 1
-max_instances: 2
+max_instances: 3
