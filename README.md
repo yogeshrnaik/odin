@@ -1,4 +1,3 @@
-(TODO - Needs to update these instructions)
 
 #### Build the service image with command
 
