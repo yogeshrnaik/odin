@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        USER_NAME = "ecs-workshop"
+        USER_NAME = "yogesh"
         SERVICE_NAME = "odin"
         AWS_REGION = "us-east-1"
         REPO_NAME = "${USER_NAME}/${SERVICE_NAME}"
